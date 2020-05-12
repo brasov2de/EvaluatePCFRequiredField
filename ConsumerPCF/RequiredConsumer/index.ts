@@ -28,12 +28,12 @@ export class RequiredConsumer implements ComponentFramework.StandardControl<IInp
 		if(this._isValid!==newIsValid){
 			const newMessage = {
 				name: "ORBIS.FormGateway",
-				source : this._targetProperty.attribute?.LogicalName, 
+				fieldName : this._targetProperty.attribute?.LogicalName, 
 				valid : newIsValid, 
 				errorMessage : newIsValid===false ? "The value is not valid" : ""
 			};
 			console.log(`sending message ${0}`, newMessage );
-			window.postMessage(newMessage, document.location.href);
+			window.postMessage(newMessage, window.origin);
 		}
 		this._isValid = newIsValid;		
 		if(this._isValid===true){
