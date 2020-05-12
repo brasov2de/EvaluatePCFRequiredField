@@ -1,37 +1,33 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
+import { FormGatewayApp } from "./App/FormGatewayApp";
+import React = require("react");
+import ReactDOM = require("react-dom");
 
-interface IValid {
-    [key: string]: boolean;
-}
 
-interface IErrorMessages {
-    [key: string]: string | null | undefined;
-}
 
 export class FormGateway implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 		
-	private _valid : IValid = {};
-	private _errorMessages : IErrorMessages = {};
+	private _value : boolean;
+	private _notifyOutputChanged : () => void;
+	private _container : HTMLDivElement;
 
 	constructor()
 	{		
 	}
 
-	private getIsValid(){
-		return Object.values(this._valid).every((val) => val === true);
-	}
-
-	private recieveMessage(message: any){
-		if(message == null) return;
-		if(message.origin !== window.origin || message.source !== window ) 
-			return;
-		if(!(message.data && message.data.name === "ORBIS.FormGateway" && message.data.valid!=null && message.data.fieldName != null)){
-			return;
+	onValueChanged = (value:boolean ) : void => {
+		if(value!==this._value){
+			this._value = value;
+			this._notifyOutputChanged();
 		}
-		this._valid[message.data.fieldName] = message.data.valid;
-		this._errorMessages[message.data.fieldName] = message.data.errorMessage;
-		console.log(`Message recieved`, message);
+	}
 		
+	private renderContent(){
+		const props = {
+			targetValue : this._value,
+			onValueChanged : this.onValueChanged
+		}
+		ReactDOM.render(React.createElement(FormGatewayApp, props	), this._container);
 	}
 
 	/**
@@ -44,7 +40,10 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{		
-		window.addEventListener("message", this.recieveMessage.bind(this), false);
+		this._value = context.parameters.targetProperty.raw;
+		this._container = container;
+		this._notifyOutputChanged = notifyOutputChanged;
+		this.renderContent();
 	}
 
 
@@ -54,7 +53,11 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		//don't care about the changed. It only respond to messages
+		/*
+		if(context.parameters.targetProperty.raw!==this._value){
+			this._value = context.parameters.targetProperty.raw;
+		this.renderContent();
+		}*/
 	}
 
 	/** 
@@ -64,7 +67,7 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 	public getOutputs(): IOutputs
 	{
 		return { 
-			targetProperty: this.getIsValid() === true ? true : undefined
+			targetProperty: this._value
 		}; //undefined will delete the value. When valid set the target property on != null
 	}
 
