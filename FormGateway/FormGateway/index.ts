@@ -23,8 +23,7 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 	}
 		
 	private renderContent(){
-		const props = {
-			targetValue : this._value,
+		const props = {		
 			onValueChanged : this.onValueChanged
 		}
 		ReactDOM.render(React.createElement(FormGatewayApp, props	), this._container);
@@ -67,7 +66,7 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 	public getOutputs(): IOutputs
 	{
 		return { 
-			targetProperty: this._value
+			targetProperty: this._value === true ? true : undefined
 		}; //undefined will delete the value. When valid set the target property on != null
 	}
 
