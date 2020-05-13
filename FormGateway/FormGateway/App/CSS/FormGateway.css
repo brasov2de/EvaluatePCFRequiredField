@@ -1,0 +1,9 @@
+.ORBIS\.FormGateway .ErrorMessage {
+    background-color: rgba(191, 9, 0, 0.075);
+    padding: 0.5rem;
+    color: #BF0900;
+    text-align: left;
+    padding-left: 10px;
+    margin: 3px;
+    border: 1px solid #BF0900;
+}

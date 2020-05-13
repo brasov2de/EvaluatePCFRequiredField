@@ -18,8 +18,8 @@ export class RequiredConsumer implements ComponentFramework.StandardControl<IInp
 
 	private renderValue(){
 		this._label.textContent = `reported value: ${this._targetValue} (internal: ${this._targetValueInternal})` ;
-		this._label.style.backgroundColor = this._targetValueInternal === null ? "green" : "red";	
-		this._label.style.color = "white";	
+		this._label.style.color = this._targetValueInternal === null ? "green" : "red";	
+		//this._label.style.color = "white";	
 	}
 
 	private setValue(val : string){

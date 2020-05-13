@@ -5,6 +5,7 @@
     <property name="targetProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="TwoOptions" usage="bound" required="true" />
     <resources>
       <code path="index.ts" order="1"/>
+      <css path="./App/CSS/FormGateway.css" order="1" />
     </resources>
   </control>
 </manifest>

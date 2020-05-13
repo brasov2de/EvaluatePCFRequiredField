@@ -7,7 +7,7 @@ import ReactDOM = require("react-dom");
 
 export class FormGateway implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 		
-	private _value : boolean;
+	private _value ?: boolean;
 	private _notifyOutputChanged : () => void;
 	private _container : HTMLDivElement;
 
@@ -15,7 +15,7 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 	{		
 	}
 
-	onValueChanged = (value:boolean ) : void => {
+	onValueChanged = (value ?:boolean ) : void => {
 		if(value!==this._value){
 			this._value = value;
 			this._notifyOutputChanged();
@@ -24,6 +24,7 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 		
 	private renderContent(){
 		const props = {		
+			value: this._value,
 			onValueChanged : this.onValueChanged
 		}
 		ReactDOM.render(React.createElement(FormGatewayApp, props	), this._container);

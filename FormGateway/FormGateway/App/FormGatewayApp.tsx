@@ -12,14 +12,15 @@ export interface IMessageContent {
 
 
 export interface IFormGatewayProps{  
-    onValueChanged : (value: boolean) => void
+    onValueChanged : (value ?: boolean) => void, 
+    value ?: boolean
 }
 
 
 
-export const FormGatewayApp = function FormGatewayApp({ onValueChanged}: IFormGatewayProps) : JSX.Element {
+export const FormGatewayApp = function FormGatewayApp({ onValueChanged, value}: IFormGatewayProps) : JSX.Element {
     const [messages , setMessages]  = React.useState<Array<IMessageContent>>([]);
-    const [isValid, setIsValid] = React.useState(true);
+    const [isValid, setIsValid] = React.useState(value);
 
     const onMessageCallback = (newMessage : IMessageContent) => {    
         const cloneMessages = messages.filter((message) => message.fieldName!==newMessage.fieldName);        
@@ -33,7 +34,7 @@ export const FormGatewayApp = function FormGatewayApp({ onValueChanged}: IFormGa
     useMessageListerer(onMessageCallback);    
 
     React.useEffect(() => {
-        setIsValid(messages.length === 0);
+        setIsValid( messages.length === 0 );
     }, [messages]);
 
     React.useEffect(()=> {
@@ -43,7 +44,7 @@ export const FormGatewayApp = function FormGatewayApp({ onValueChanged}: IFormGa
     return isValid === true 
         ? (<div></div>)
         : (<div>
-            {messages.map((message) => <div>{message.errorMessage}</div> )}
+            {messages.map((message) => <div className="ErrorMessage">{message.errorMessage}</div> )}
         </div>);
     
 }
