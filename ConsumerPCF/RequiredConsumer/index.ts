@@ -34,7 +34,7 @@ export class RequiredConsumer implements ComponentFramework.StandardControl<IInp
 				errorMessage : newIsValid===false ? `The value for ${fieldName} not valid` : ""
 			};
 			console.log(`sending message ${0}`, newMessage );
-			window.postMessage(newMessage, window.origin);
+			window.postMessage(newMessage, window.location.href);
 		}
 		this._isValid = newIsValid;		
 		if(this._isValid===true){

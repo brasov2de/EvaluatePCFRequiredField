@@ -8,14 +8,16 @@ interface IMessge{
     data : IMessageContent;
 }
 
+debugger;
 
 export function useMessageListerer(callback : Function){    
      
     useEffect(() => {
 
         const recieveHandler = (message: IMessge) => {
+
             if(message == null) return;
-            if(message.origin !== window.origin || message.source !== window ) 
+            if(message.origin !== window.location.origin || message.source !== window ) 
                 return;
             if(!(message.data && message.data.messageName === "ORBIS.FormGateway" && message.data.isValid!=null && message.data.fieldName != null)){
                 return;
