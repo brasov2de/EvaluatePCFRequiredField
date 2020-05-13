@@ -11,14 +11,15 @@ export interface IMessageContent {
 
 
 
-export interface IFormGatewayProps{  
-    onValueChanged : (value ?: boolean) => void, 
-    value ?: boolean
+export interface IFormGateProps{  
+    onValueChanged : (value ?: boolean) => void;
+    value ?: boolean;
+    messageName : string;
 }
 
 
 
-export const FormGatewayApp = function FormGatewayApp({ onValueChanged, value}: IFormGatewayProps) : JSX.Element {
+export const FormGateApp = function FormGateApp({ onValueChanged, value, messageName}: IFormGateProps) : JSX.Element {
     const [messages , setMessages]  = React.useState<Array<IMessageContent>>([]);
     const [isValid, setIsValid] = React.useState(value);
 
@@ -31,7 +32,7 @@ export const FormGatewayApp = function FormGatewayApp({ onValueChanged, value}: 
             setMessages( cloneMessages );              
         }
     };
-    useMessageListerer(onMessageCallback);    
+    useMessageListerer(onMessageCallback, messageName);    
 
     React.useEffect(() => {
         setIsValid( messages.length === 0 );

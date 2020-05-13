@@ -1,5 +1,5 @@
 import {  useEffect } from "react";
-import { IMessageContent } from "../FormGatewayApp";
+import { IMessageContent } from "../FormGateApp";
 
 
 interface IMessge{
@@ -10,7 +10,7 @@ interface IMessge{
 
 debugger;
 
-export function useMessageListerer(callback : Function){    
+export function useMessageListerer(callback : Function, messageName: string){    
      
     useEffect(() => {
 
@@ -19,7 +19,7 @@ export function useMessageListerer(callback : Function){
             if(message == null) return;
             if(message.origin !== window.location.origin || message.source !== window ) 
                 return;
-            if(!(message.data && message.data.messageName === "ORBIS.FormGateway" && message.data.isValid!=null && message.data.fieldName != null)){
+            if(!(message.data && message.data.messageName === messageName && message.data.isValid!=null && message.data.fieldName != null)){
                 return;
             }            
             console.log(`Message recieved`, message);

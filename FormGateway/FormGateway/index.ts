@@ -1,15 +1,16 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { FormGatewayApp } from "./App/FormGatewayApp";
+import { FormGateApp } from "./App/FormGateApp";
 import React = require("react");
 import ReactDOM = require("react-dom");
 
 
 
-export class FormGateway implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class FormGate implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 		
 	private _value ?: boolean;
 	private _notifyOutputChanged : () => void;
 	private _container : HTMLDivElement;
+	private _messageName : string;
 
 	constructor()
 	{		
@@ -25,9 +26,11 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 	private renderContent(){
 		const props = {		
 			value: this._value,
-			onValueChanged : this.onValueChanged
+			onValueChanged : this.onValueChanged, 
+			messageName : this._messageName
+
 		}
-		ReactDOM.render(React.createElement(FormGatewayApp, props	), this._container);
+		ReactDOM.render(React.createElement(FormGateApp, props	), this._container);
 	}
 
 	/**
@@ -43,6 +46,7 @@ export class FormGateway implements ComponentFramework.StandardControl<IInputs, 
 		this._value = context.parameters.targetProperty.raw;
 		this._container = container;
 		this._notifyOutputChanged = notifyOutputChanged;
+		this._messageName = context.parameters.messageName.raw || "ORBIS.FormGate";
 		this.renderContent();
 	}
 
