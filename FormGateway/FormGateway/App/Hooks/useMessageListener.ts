@@ -8,7 +8,7 @@ interface IMessge{
     data : IMessageContent;
 }
 
-debugger;
+
 
 export function useMessageListerer(callback : Function, messageName: string){    
      
